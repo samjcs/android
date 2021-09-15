@@ -41,6 +41,7 @@ import com.owncloud.android.presentation.viewmodels.settings.SettingsSecurityVie
 import com.owncloud.android.ui.activity.BiometricActivity
 import com.owncloud.android.presentation.ui.security.PassCodeActivity
 import com.owncloud.android.ui.activity.PatternLockActivity
+import com.owncloud.android.utils.DocumentProviderUtils.Companion.notifyDocumentProviderRoots
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsSecurityFragment : PreferenceFragmentCompat() {
@@ -215,11 +216,13 @@ class SettingsSecurityFragment : PreferenceFragmentCompat() {
                         ) { dialog: DialogInterface?, which: Int ->
                             securityViewModel.setPrefAccessDocumentProvider(true)
                             prefAccessDocumentProvider?.isChecked = true
+                            notifyDocumentProviderRoots(requireContext())
                         }
                         .show()
                 }
                 return@setOnPreferenceChangeListener false
             }
+            notifyDocumentProviderRoots(requireContext())
             true
         }
 
