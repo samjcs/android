@@ -40,6 +40,7 @@ import com.owncloud.android.ui.activity.UploadPathActivity
 import com.owncloud.android.utils.FileStorageUtils.getDefaultCameraSourcePath
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.io.File
 
 class SettingsPictureUploadsViewModel(
@@ -161,8 +162,11 @@ class SettingsPictureUploadsViewModel(
         sourcePath: String? = _pictureUploads.value?.sourcePath,
         behavior: FolderBackUpConfiguration.Behavior? = _pictureUploads.value?.behavior,
         timestamp: Long? = _pictureUploads.value?.lastSyncTimestamp
-    ): FolderBackUpConfiguration =
-        FolderBackUpConfiguration(
+    ): FolderBackUpConfiguration {
+
+        Timber.w("Timestamp: $timestamp")
+
+        return FolderBackUpConfiguration(
             accountName = accountName ?: accountProvider.getCurrentOwnCloudAccount()!!.name,
             behavior = behavior ?: FolderBackUpConfiguration.Behavior.COPY,
             sourcePath = sourcePath.orEmpty(),
@@ -171,4 +175,5 @@ class SettingsPictureUploadsViewModel(
             lastSyncTimestamp = timestamp ?: System.currentTimeMillis(),
             name = _pictureUploads.value?.name ?: pictureUploadsName
         )
+    }
 }
